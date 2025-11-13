@@ -1,394 +1,543 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GBA Associates LP – DHHQ Asset Management</title>
 
-    <!-- Tailwind -->
+    <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
-    <!-- Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
     <style>
         :root {
-            --primary: #C8102E; /* GBA Red */
-            --dark: #111827;    /* Charcoal */
-            --text: #4B5563;    /* Gray-600 */
+            --color-primary: #050b18;      /* Deep navy background */
+            --color-primary-soft: #0b1528; /* Slightly lighter navy */
+            --color-secondary: #c8102e;    /* GBA red accent */
+            --color-text: #4b5563;         /* Body text */
         }
 
-        body { font-family: 'Inter', sans-serif; color: var(--text); }
-
-        .hover-card {
-            transition: all 0.25s ease;
+        body {
+            font-family: "Inter", sans-serif;
+            color: var(--color-text);
         }
-        .hover-card:hover {
+
+        .bg-primary-dark { background-color: var(--color-primary); }
+        .bg-primary-soft { background-color: var(--color-primary-soft); }
+        .text-primary-dark { color: #111827; }
+        .text-secondary { color: var(--color-secondary); }
+        .bg-secondary { background-color: var(--color-secondary); }
+
+        .shadow-lg-custom {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45);
+        }
+
+        .hero-overlay {
+            background-image: linear-gradient(
+                to right,
+                rgba(5, 11, 24, 0.92) 0%,
+                rgba(5, 11, 24, 0.86) 40%,
+                rgba(5, 11, 24, 0.55) 70%,
+                transparent 100%
+            );
+        }
+
+        /* Feature / service card hover */
+        .gba-card {
+            transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease, background-color 200ms ease;
+        }
+        .gba-card:hover {
             transform: translateY(-6px);
-            box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.35);
+            border-color: rgba(200, 16, 46, 0.65);
+            background-color: #ffffff;
         }
 
-        /* Horizontal Partner Scroll */
-        .scroll-x {
-            display: flex;
-            overflow-x: auto;
-            gap: 4rem;
-            padding-bottom: 1rem;
-            scrollbar-width: thin;
+        /* Partners horizontal strip */
+        .partner-pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            border: 1px solid rgba(148, 163, 184, 0.5);
+            background-color: #ffffff;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            transition:
+                transform 200ms ease,
+                box-shadow 200ms ease,
+                border-color 200ms ease,
+                color 200ms ease,
+                background-color 200ms ease;
         }
-        .scroll-x::-webkit-scrollbar {
+
+        .partner-pill:hover {
+            transform: translateY(-3px) scale(1.03);
+            border-color: var(--color-secondary);
+            color: var(--color-secondary);
+            box-shadow: 0 16px 30px rgba(15, 23, 42, 0.22);
+            background-color: #f9fafb;
+        }
+
+        .partners-scroll {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(148, 163, 184, 0.8) transparent;
+        }
+        .partners-scroll::-webkit-scrollbar {
             height: 6px;
         }
-        .scroll-x::-webkit-scrollbar-thumb {
-            background: #c8102e66;
-            border-radius: 4px;
+        .partners-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .partners-scroll::-webkit-scrollbar-thumb {
+            background-color: rgba(148, 163, 184, 0.9);
+            border-radius: 9999px;
+        }
+
+        /* Soft gradient fade at edges of horizontal scroll */
+        .partners-fade-left,
+        .partners-fade-right {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 64px;
+            pointer-events: none;
+        }
+
+        .partners-fade-left {
+            left: 0;
+            background: linear-gradient(to right, #f3f4f6 0%, rgba(243, 244, 246, 0) 100%);
+        }
+
+        .partners-fade-right {
+            right: 0;
+            background: linear-gradient(to left, #f3f4f6 0%, rgba(243, 244, 246, 0) 100%);
         }
     </style>
 </head>
 
 <body class="bg-white">
 
-<!-- NAVBAR -->
-<header class="sticky top-0 z-50 bg-white shadow">
-    <div class="max-w-7xl mx-auto px-6 flex justify-between items-center h-20">
-
-        <div class="flex items-center space-x-3">
-            <span class="text-5xl font-extrabold text-[var(--primary)]" style="font-family:serif;">GBA</span>
-            <span class="text-lg font-medium text-[var(--dark)] tracking-wide">Associates LP</span>
-        </div>
-
-        <nav class="hidden md:flex space-x-10 text-[var(--dark)] font-medium">
-            <a href="#hero" class="hover:text-[var(--primary)]">Home</a>
-            <a href="#about" class="hover:text-[var(--primary)]">Asset Overview</a>
-            <a href="#services" class="hover:text-[var(--primary)]">Operational Mandate</a>
-            <a href="#partners" class="hover:text-[var(--primary)]">Partners</a>
-            <a href="#contact" class="hover:text-[var(--primary)]">Contact</a>
-        </nav>
-
-        <a class="bg-[var(--primary)] text-white font-bold py-3 px-6 rounded-lg shadow hover:bg-red-700 uppercase text-sm">
-            Tenant Portal
-        </a>
-    </div>
-</header>
-
-
-<!-- HERO -->
-<section id="hero" class="relative h-[80vh] flex items-center justify-start">
-    <div class="absolute inset-0 bg-cover bg-center"
-         style="background-image: url('https://placehold.co/1600x900/1f2a44/ffffff?text=DHHQ+Campus+Exterior');">
-    </div>
-
-    <div class="absolute inset-0 bg-black bg-opacity-60"></div>
-
-    <div class="relative z-10 max-w-5xl mx-auto px-6 text-white">
-        <p class="uppercase tracking-widest text-gray-300 font-semibold mb-4">
-            Institutional Lessor & Asset Management
-        </p>
-        <h1 class="text-6xl font-extrabold mb-6 leading-tight">
-            Operational Continuity for <span class="text-[var(--primary)]">U.S. Defense Health.</span>
-        </h1>
-
-        <a href="#services"
-           class="mt-6 inline-block border border-white text-white font-bold py-3 px-10 rounded-full hover:bg-white hover:text-black transition">
-            View Operational Mandate
-        </a>
-    </div>
-</section>
-
-
-<!-- ABOUT -->
-<section id="about" class="py-24 bg-white">
-    <div class="max-w-7xl mx-auto px-6">
-
-        <h2 class="text-5xl font-extrabold text-[var(--dark)] max-w-3xl mb-12">
-            Dedicated Ownership & Management of the <span class="text-[var(--primary)]">DHHQ Campus.</span>
-        </h2>
-
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
-
-            <div class="lg:col-span-5 text-lg leading-relaxed">
-                GBA Associates LP serves as the institutional lessor and property owner for the Defense Health Headquarters.
-                We manage long-term asset integrity, federal lease compliance, and operational continuity supporting mission-critical federal tenants.
-                <br><br>
-                <a href="#contact" class="font-bold hover:text-[var(--primary)] flex items-center">
-                    Contact Asset Leadership
-                    <i data-lucide="arrow-right" class="ml-2 w-5 h-5"></i>
-                </a>
+    <!-- HEADER -->
+    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur shadow">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-20">
+            <!-- Logo -->
+            <div class="flex items-center space-x-3">
+                <span class="text-4xl sm:text-5xl font-extrabold text-secondary leading-none" style="font-family: serif;">GBA</span>
+                <span class="text-lg sm:text-xl font-medium text-primary-dark border-l border-gray-300 pl-3">
+                    Associates LP
+                </span>
             </div>
 
-            <div class="lg:col-span-7 grid grid-cols-2 gap-10">
+            <!-- Navigation -->
+            <nav class="hidden md:flex space-x-8 text-sm font-medium text-gray-700">
+                <a href="#hero" class="hover:text-secondary transition">Home</a>
+                <a href="#about" class="hover:text-secondary transition">Asset Overview</a>
+                <a href="#services" class="hover:text-secondary transition">Operational Mandate</a>
+                <a href="#partners" class="hover:text-secondary transition">Partners</a>
+                <a href="#contact" class="hover:text-secondary transition">Contact</a>
+            </nav>
 
-                <div>
-                    <h3 class="text-3xl font-extrabold text-[var(--dark)] border-b-4 border-[var(--primary)] pb-2 mb-2">
-                        GSA Aligned
-                    </h3>
-                    <p class="font-semibold text-gray-700">Lease Compliance</p>
-                </div>
-
-                <div>
-                    <h3 class="text-3xl font-extrabold text-[var(--dark)] border-b-4 border-[var(--primary)] pb-2 mb-2">
-                        24/7 Uptime
-                    </h3>
-                    <p class="font-semibold text-gray-700">Operational Stability</p>
-                </div>
-
-                <div>
-                    <h3 class="text-3xl font-extrabold text-[var(--dark)] border-b-4 border-[var(--primary)] pb-2 mb-2">
-                        Liaison Role
-                    </h3>
-                    <p class="font-semibold text-gray-700">Federal Coordination</p>
-                </div>
-
-                <div>
-                    <h3 class="text-3xl font-extrabold text-[var(--dark)] border-b-4 border-[var(--primary)] pb-2 mb-2">
-                        Stewardship
-                    </h3>
-                    <p class="font-semibold text-gray-700">Asset Integrity</p>
-                </div>
-
-            </div>
+            <!-- Tenant Portal Button -->
+            <a href="#" class="bg-secondary text-white text-xs sm:text-sm font-semibold py-2.5 px-5 rounded-lg shadow hover:bg-red-800 transition uppercase tracking-wider">
+                Tenant Portal
+            </a>
         </div>
-    </div>
-</section>
+    </header>
 
+    <main>
+        <!-- HERO -->
+        <section id="hero" class="relative h-[75vh] md:h-[90vh] flex items-center overflow-hidden bg-black">
+            <!-- Background image (replace with DHHQ campus photo when ready) -->
+            <div
+                class="absolute inset-0 bg-cover bg-center"
+                style="background-image: url('https://placehold.co/1600x900/111827/ffffff?text=Defense+Health+Headquarters+(DHHQ)+Campus');">
+            </div>
 
-<!-- SERVICES -->
-<section id="services" class="py-24 bg-gray-100">
-    <div class="max-w-7xl mx-auto px-6">
+            <!-- Overlay -->
+            <div class="absolute inset-0 hero-overlay"></div>
 
-        <p class="text-[var(--primary)] uppercase font-semibold text-center tracking-widest mb-3">
-            Operational Scope
-        </p>
+            <!-- Content -->
+            <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="md:w-2/3 lg:w-1/2">
+                    <p class="text-gray-300 text-xs sm:text-sm font-semibold tracking-[0.25em] uppercase mb-5">
+                        Lessor and Asset Manager of Record
+                    </p>
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6">
+                        Operational Continuity<br />
+                        for U.S. Defense Health.
+                    </h1>
+                    <p class="text-gray-200 text-sm sm:text-base lg:text-lg max-w-xl mb-8">
+                        GBA Associates LP serves as the institutional lessor and asset manager for the Defense Health Headquarters campus in Falls Church, Virginia.
+                    </p>
+                    <div class="flex flex-wrap items-center gap-4">
+                        <a href="#services" class="bg-secondary text-white font-semibold text-xs sm:text-sm tracking-wider uppercase py-3 px-8 rounded-full shadow-lg shadow-red-900/40 hover:bg-red-700 transition">
+                            View Operational Mandate
+                        </a>
+                        <a href="#about" class="text-white/80 text-xs sm:text-sm font-medium hover:text-white flex items-center">
+                            Explore Asset Overview
+                            <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        <h2 class="text-4xl font-extrabold text-[var(--dark)] text-center mb-16">
-            Systemic Maintenance & Project Delivery
-        </h2>
+        <!-- ASSET OVERVIEW -->
+        <section id="about" class="py-20 md:py-28 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-primary-dark mb-10 sm:mb-14">
+                    Dedicated Ownership and Management of the DHHQ Campus.
+                </h2>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+                <div class="lg:grid lg:grid-cols-12 lg:gap-12 xl:gap-16">
+                    <!-- Left column -->
+                    <div class="lg:col-span-5 mb-10 lg:mb-0">
+                        <p class="text-base sm:text-lg text-gray-700 leading-relaxed mb-6">
+                            GBA Associates LP is the institutional lessor and property ownership entity for the Defense Health Headquarters. Our work centers on long term asset integrity, federal lease compliance, and stable facility operations supporting mission focused federal tenants.
+                        </p>
+                        <p class="text-sm text-gray-500">
+                            The firm coordinates closely with federal stakeholders to keep the campus reliable, resilient, and aligned with operational needs.
+                        </p>
 
-            <div class="bg-white p-8 rounded-xl shadow hover-card border-t-4 border-[var(--primary)]">
-                <i data-lucide="clipboard-list" class="w-8 h-8 text-[var(--dark)] mb-4"></i>
-                <h3 class="text-xl font-bold mb-2">Vendor Oversight</h3>
-                <p class="text-gray-600 text-sm">
-                    Active management of service partners ensuring compliance and operational quality.
+                        <a href="#contact" class="mt-8 inline-flex items-center text-sm sm:text-base text-primary-dark font-semibold hover:text-secondary">
+                            Contact Asset Leadership
+                            <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                        </a>
+                    </div>
+
+                    <!-- Right column: key points -->
+                    <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-8">
+                        <article class="gba-card border border-gray-200 rounded-2xl p-6 bg-gray-50">
+                            <h3 class="text-xl font-bold text-primary-dark mb-2 border-b-2 border-secondary inline-block pb-1">
+                                GSA Aligned
+                            </h3>
+                            <p class="text-sm font-semibold text-gray-700 mb-1">Lease Compliance</p>
+                            <p class="text-xs sm:text-sm text-gray-600">
+                                Oversight of the federal lease structure supporting DHHQ operational requirements and government obligations.
+                            </p>
+                        </article>
+
+                        <article class="gba-card border border-gray-200 rounded-2xl p-6 bg-gray-50">
+                            <h3 class="text-xl font-bold text-primary-dark mb-2 border-b-2 border-secondary inline-block pb-1">
+                                24/7 Uptime
+                            </h3>
+                            <p class="text-sm font-semibold text-gray-700 mb-1">Operational Stability</p>
+                            <p class="text-xs sm:text-sm text-gray-600">
+                                Focus on continuous facility readiness through preventive maintenance and coordinated service response.
+                            </p>
+                        </article>
+
+                        <article class="gba-card border border-gray-200 rounded-2xl p-6 bg-gray-50">
+                            <h3 class="text-xl font-bold text-primary-dark mb-2 border-b-2 border-secondary inline-block pb-1">
+                                Liaison Role
+                            </h3>
+                            <p class="text-sm font-semibold text-gray-700 mb-1">Federal Coordination</p>
+                            <p class="text-xs sm:text-sm text-gray-600">
+                                Primary interface for federal occupants and administrative partners regarding campus operations and logistics.
+                            </p>
+                        </article>
+
+                        <article class="gba-card border border-gray-200 rounded-2xl p-6 bg-gray-50">
+                            <h3 class="text-xl font-bold text-primary-dark mb-2 border-b-2 border-secondary inline-block pb-1">
+                                Stewardship
+                            </h3>
+                            <p class="text-sm font-semibold text-gray-700 mb-1">Asset Integrity</p>
+                            <p class="text-xs sm:text-sm text-gray-600">
+                                Long term strategic investment in infrastructure reliability, lifecycle planning, and capital improvements.
+                            </p>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- OPERATIONAL MANDATE -->
+        <section id="services" class="py-20 md:py-28 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <p class="text-secondary text-xs sm:text-sm font-semibold tracking-[0.3em] uppercase text-center mb-4">
+                    Operational Scope
                 </p>
-            </div>
+                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-primary-dark text-center mb-14">
+                    Systemic Maintenance and Project Delivery
+                </h2>
 
-            <div class="bg-white p-8 rounded-xl shadow hover-card border-t-4 border-[var(--primary)]">
-                <i data-lucide="cpu" class="w-8 h-8 text-[var(--dark)] mb-4"></i>
-                <h3 class="text-xl font-bold mb-2">Infrastructure Stewardship</h3>
-                <p class="text-gray-600 text-sm">
-                    Oversight of HVAC, electrical, structural, and digital systems across campus.
-                </p>
-            </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <article class="gba-card bg-white border border-gray-200 rounded-2xl p-7">
+                        <i data-lucide="clipboard-list" class="w-7 h-7 text-primary-dark mb-4"></i>
+                        <h3 class="text-lg font-bold text-primary-dark mb-2">Vendor Oversight</h3>
+                        <p class="text-sm text-gray-600">
+                            Management of service partners to support compliance, performance standards, and consistent facility quality.
+                        </p>
+                    </article>
 
-            <div class="bg-white p-8 rounded-xl shadow hover-card border-t-4 border-[var(--primary)]">
-                <i data-lucide="wrench" class="w-8 h-8 text-[var(--dark)] mb-4"></i>
-                <h3 class="text-xl font-bold mb-2">Work Order Logistics</h3>
-                <p class="text-gray-600 text-sm">
-                    Coordination of access, maintenance tasks, PFAC, parking, and repairs.
-                </p>
-            </div>
+                    <article class="gba-card bg-white border border-gray-200 rounded-2xl p-7">
+                        <i data-lucide="cpu" class="w-7 h-7 text-primary-dark mb-4"></i>
+                        <h3 class="text-lg font-bold text-primary-dark mb-2">Infrastructure Stewardship</h3>
+                        <p class="text-sm text-gray-600">
+                            Oversight of core building systems including HVAC, electrical, life safety, and digital infrastructure.
+                        </p>
+                    </article>
 
-            <div class="bg-white p-8 rounded-xl shadow hover-card border-t-4 border-[var(--primary)]">
-                <i data-lucide="layout-dashboard" class="w-8 h-8 text-[var(--dark)] mb-4"></i>
-                <h3 class="text-xl font-bold mb-2">Capital Project Planning</h3>
-                <p class="text-gray-600 text-sm">
-                    Long-term upgrades, replacements, and facility improvement schedules.
-                </p>
-            </div>
+                    <article class="gba-card bg-white border border-gray-200 rounded-2xl p-7">
+                        <i data-lucide="wrench" class="w-7 h-7 text-primary-dark mb-4"></i>
+                        <h3 class="text-lg font-bold text-primary-dark mb-2">Work Order Logistics</h3>
+                        <p class="text-sm text-gray-600">
+                            Coordination of access, work orders, and daily operational tasks across the DHHQ campus.
+                        </p>
+                    </article>
 
-        </div>
-    </div>
-</section>
-
-
-
-<!-- PARTNERS / HORIZONTAL SCROLL -->
-<section id="partners" class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-6 text-center">
-
-        <p class="text-gray-700 font-semibold uppercase tracking-wide mb-10">
-            Partnerships Supporting DHHQ Operations
-        </p>
-
-        <div class="scroll-x text-xl font-medium text-[var(--dark)]">
-
-            <span>Alamo Flag Co</span>
-            <span>Alban CAT</span>
-            <span>Arbon Equipment</span>
-            <span>Ares Power</span>
-            <span>Atlantic Door</span>
-            <span>Baldino’s</span>
-            <span>Bixler Studios</span>
-            <span>CCCI</span>
-            <span>Commercial Finish Services</span>
-            <span>DCS</span>
-            <span>Dominion Energy</span>
-            <span>EnviroGrow</span>
-            <span>Fedlock</span>
-            <span>Freestate</span>
-            <span>GB Shades</span>
-            <span>Gensler</span>
-            <span>GHT</span>
-            <span>GreyGate</span>
-            <span>Griffith Energy</span>
-            <span>Hunt & Walsh</span>
-            <span>J&R Solutions</span>
-            <span>JK Moving</span>
-            <span>JPG Plumbing</span>
-            <span>K&S</span>
-            <span>Kensington Glass</span>
-            <span>Kerley Signs</span>
-            <span>KG Sheet Metal</span>
-            <span>Long Fence</span>
-            <span>Merrifield Garden</span>
-            <span>Modern Door</span>
-            <span>Nationwide Refrigeration</span>
-            <span>Newmat</span>
-            <span>Overhead Door</span>
-            <span>Padgett & Associates</span>
-            <span>Palm Facility Services</span>
-            <span>Precision</span>
-            <span>PSI</span>
-            <span>Reflections Glass</span>
-            <span>Reliance</span>
-            <span>Royal Floors</span>
-            <span>Royal Interiors</span>
-            <span>SolutionZ</span>
-            <span>Sunbelt Rentals</span>
-            <span>Tech 24</span>
-            <span>Urban Ltd</span>
-            <span>Valley Proteins</span>
-            <span>Washington Gas</span>
-            <span>Waste Management</span>
-            <span>WE Bowers</span>
-            <span>Western Pest Control</span>
-            <span>Akleen Hood Services</span>
-            <span>CEW</span>
-            <span>Gordon</span>
-            <span>Lutron</span>
-            <span>Roman Mosaic</span>
-            <span>Capon Bridge Glass</span>
-
-        </div>
-    </div>
-</section>
-
-
-
-<!-- CONTACT -->
-<section id="contact" class="py-24 bg-[var(--dark)] text-white">
-    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-3 gap-16">
-
-        <!-- FORM -->
-        <div class="lg:col-span-2">
-
-            <h2 class="text-5xl font-extrabold mb-4">Connect with Asset Leadership</h2>
-            <p class="text-gray-300 mb-10 text-lg">For inquiries or coordination, contact us directly.</p>
-
-            <form action="https://formsubmit.co/gba.lp.fwd@gmail.com"
-                  method="POST"
-                  class="bg-white text-[var(--dark)] p-10 rounded-xl shadow-2xl space-y-6">
-
-                <!-- SECURITY FIELDS -->
-                <input type="hidden" name="_captcha" value="false">
-                <input type="hidden" name="_template" value="box">
-
-                <div>
-                    <input name="Full Name & Affiliation"
-                           type="text"
-                           class="w-full border-gray-300 rounded-lg p-4 text-lg"
-                           placeholder="Full Name & Affiliation"
-                           required>
-                </div>
-
-                <div>
-                    <input name="Official Email"
-                           type="email"
-                           class="w-full border-gray-300 rounded-lg p-4 text-lg"
-                           placeholder="Official Email"
-                           required>
-                </div>
-
-                <div>
-                    <textarea name="Inquiry Details"
-                              rows="5"
-                              class="w-full border-gray-300 rounded-lg p-4 text-lg"
-                              placeholder="Inquiry Details..."
-                              required></textarea>
-                </div>
-
-                <button type="submit"
-                        class="w-full bg-[var(--primary)] hover:bg-red-700 text-white font-bold py-4 rounded-lg shadow-md uppercase tracking-wide text-lg">
-                    Submit Inquiry
-                </button>
-            </form>
-        </div>
-
-        <!-- CONTACT INFO & MAP -->
-        <div class="lg:col-span-1">
-
-            <h3 class="text-2xl font-bold mb-4 border-b border-gray-700 pb-2">DHHQ Corporate Information</h3>
-
-            <div class="space-y-6">
-
-                <div>
-                    <p class="text-gray-300 font-semibold uppercase tracking-wide">Address</p>
-                    <p class="text-gray-100">7700 Arlington Blvd, Suite 100<br>Falls Church, VA 22042</p>
-                </div>
-
-                <div>
-                    <p class="text-gray-300 font-semibold uppercase tracking-wide">Direct Contacts</p>
-                    <p class="text-gray-100">(703) 560-3883</p>
-                </div>
-
-                <div>
-                    <p class="text-gray-300 font-semibold uppercase tracking-wide">Email</p>
-                    <p class="text-gray-100">Info@gba-lp.com</p>
+                    <article class="gba-card bg-white border border-gray-200 rounded-2xl p-7">
+                        <i data-lucide="layout-dashboard" class="w-7 h-7 text-primary-dark mb-4"></i>
+                        <h3 class="text-lg font-bold text-primary-dark mb-2">Capital Project Planning</h3>
+                        <p class="text-sm text-gray-600">
+                            Strategic oversight of upgrades, replacements, tenant improvements, and long horizon project delivery.
+                        </p>
+                    </article>
                 </div>
             </div>
+        </section>
 
-            <!-- MAP -->
-            <div class="mt-10 w-full h-64 rounded-lg overflow-hidden shadow-lg">
-                <iframe
-                    width="100%"
-                    height="100%"
-                    style="border:0"
-                    loading="lazy"
-                    allowfullscreen
-                    referrerpolicy="no-referrer-when-downgrade"
-                    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDgZ-fake-key-for-demo
-                        &q=7700+Arlington+Blvd+Falls+Church+VA">
-                </iframe>
+        <!-- PARTNERS HORIZONTAL STRIP -->
+        <section id="partners" class="bg-gray-50 pb-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="border-t border-gray-200 pt-12">
+                    <p class="text-xs sm:text-sm font-semibold tracking-[0.25em] uppercase text-center text-gray-500 mb-3">
+                        Partnerships Supporting DHHQ Operations
+                    </p>
+                    <h2 class="text-xl sm:text-2xl font-semibold text-center text-primary-dark mb-8">
+                        Service and project partners working with GBA Associates LP
+                    </h2>
+
+                    <div class="relative">
+                        <!-- Fades -->
+                        <div class="partners-fade-left hidden md:block"></div>
+                        <div class="partners-fade-right hidden md:block"></div>
+
+                        <!-- Scroll container -->
+                        <div class="partners-scroll overflow-x-auto">
+                            <div class="flex items-center space-x-6 sm:space-x-8 md:space-x-10 py-4 min-w-max">
+                                <!-- Partner names (deduped from your vendor list) -->
+                                <span class="partner-pill">Alamo Flag Co</span>
+                                <span class="partner-pill">Alban</span>
+                                <span class="partner-pill">Arbon</span>
+                                <span class="partner-pill">Ares Power</span>
+                                <span class="partner-pill">Atlantic Door</span>
+                                <span class="partner-pill">Baldinos</span>
+                                <span class="partner-pill">Bixler Studios</span>
+                                <span class="partner-pill">CCCI</span>
+                                <span class="partner-pill">Commercial Finish Services</span>
+                                <span class="partner-pill">DCS</span>
+                                <span class="partner-pill">Dominion Energy</span>
+                                <span class="partner-pill">EnviroGrow</span>
+                                <span class="partner-pill">Fedlock</span>
+                                <span class="partner-pill">Freestate</span>
+                                <span class="partner-pill">GB Shades</span>
+                                <span class="partner-pill">Gensler</span>
+                                <span class="partner-pill">GHT</span>
+                                <span class="partner-pill">GreyGate</span>
+                                <span class="partner-pill">Griffith Energy Services</span>
+                                <span class="partner-pill">Hunt and Walsh</span>
+                                <span class="partner-pill">J and R Solutions</span>
+                                <span class="partner-pill">JK Moving</span>
+                                <span class="partner-pill">JPG Plumbing</span>
+                                <span class="partner-pill">K and S</span>
+                                <span class="partner-pill">KCCT</span>
+                                <span class="partner-pill">Kensington Glass</span>
+                                <span class="partner-pill">Kerley Signs</span>
+                                <span class="partner-pill">KG Sheet Metal</span>
+                                <span class="partner-pill">Long Fence</span>
+                                <span class="partner-pill">Merrifield Garden</span>
+                                <span class="partner-pill">Modern Door and Equipment</span>
+                                <span class="partner-pill">Nationwide Refrigeration</span>
+                                <span class="partner-pill">Newmat</span>
+                                <span class="partner-pill">Newmat Northeast</span>
+                                <span class="partner-pill">Overhead Door</span>
+                                <span class="partner-pill">Padgett and Associates</span>
+                                <span class="partner-pill">Palm Facility Services</span>
+                                <span class="partner-pill">Precision</span>
+                                <span class="partner-pill">PSI</span>
+                                <span class="partner-pill">Reflections Glass</span>
+                                <span class="partner-pill">Reliance</span>
+                                <span class="partner-pill">Royal Floors</span>
+                                <span class="partner-pill">Royal Interiors</span>
+                                <span class="partner-pill">SolutionZ</span>
+                                <span class="partner-pill">Sunbelt Rentals</span>
+                                <span class="partner-pill">Tech 24</span>
+                                <span class="partner-pill">Urban Ltd</span>
+                                <span class="partner-pill">Valley Proteins</span>
+                                <span class="partner-pill">Washington Gas</span>
+                                <span class="partner-pill">Waste Management</span>
+                                <span class="partner-pill">WE Bowers</span>
+                                <span class="partner-pill">Western Pest Control</span>
+                                <span class="partner-pill">Akleen Hood Services</span>
+                                <span class="partner-pill">CEW</span>
+                                <span class="partner-pill">Gordon</span>
+                                <span class="partner-pill">Lutron</span>
+                                <span class="partner-pill">Roman Mosaic</span>
+                                <span class="partner-pill">Capon Bridge Glass</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+        </section>
 
+        <!-- CONTACT -->
+        <section id="contact" class="py-20 md:py-24 bg-primary-dark text-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                    <!-- Form -->
+                    <div class="lg:col-span-2">
+                        <h2 class="text-3xl sm:text-4xl font-extrabold mb-3">
+                            Connect with Asset Leadership
+                        </h2>
+                        <p class="text-sm sm:text-base text-gray-300 mb-8 max-w-xl">
+                            For inquiries, coordination, or operational matters related to the DHHQ campus, please contact GBA Associates LP directly.
+                        </p>
+
+                        <div class="bg-white rounded-2xl shadow-lg-custom p-6 sm:p-8 text-gray-800">
+                            <form
+                                action="https://formsubmit.co/gba.lp.fwd@gmail.com"
+                                method="POST"
+                                class="space-y-5">
+
+                                <!-- FormSubmit options -->
+                                <input type="hidden" name="_subject" value="New inquiry from GBA Associates LP website">
+                                <input type="hidden" name="_template" value="table">
+                                <input type="hidden" name="_captcha" value="false">
+
+                                <div>
+                                    <label for="name" class="block text-xs font-semibold text-gray-500 uppercase mb-2 tracking-wide">
+                                        Full Name and Affiliation
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="name"
+                                        name="Full Name and Affiliation"
+                                        required
+                                        class="block w-full rounded-lg border border-gray-300 focus:border-secondary focus:ring-secondary text-sm sm:text-base px-4 py-3 outline-none"
+                                        placeholder="Full name and organization" />
+                                </div>
+
+                                <div>
+                                    <label for="email" class="block text-xs font-semibold text-gray-500 uppercase mb-2 tracking-wide">
+                                        Official Email
+                                    </label>
+                                    <input
+                                        type="email"
+                                        id="email"
+                                        name="Official Email"
+                                        required
+                                        class="block w-full rounded-lg border border-gray-300 focus:border-secondary focus:ring-secondary text-sm sm:text-base px-4 py-3 outline-none"
+                                        placeholder="name@agency.gov or company domain" />
+                                </div>
+
+                                <div>
+                                    <label for="details" class="block text-xs font-semibold text-gray-500 uppercase mb-2 tracking-wide">
+                                        Inquiry Details
+                                    </label>
+                                    <textarea
+                                        id="details"
+                                        name="Inquiry Details"
+                                        rows="6"
+                                        required
+                                        class="block w-full rounded-lg border border-gray-300 focus:border-secondary focus:ring-secondary text-sm sm:text-base px-4 py-3 outline-none resize-vertical"
+                                        placeholder="Provide a brief description of the request, project, or coordination needed."></textarea>
+                                </div>
+
+                                <button
+                                    type="submit"
+                                    class="w-full bg-secondary text-white font-semibold text-sm sm:text-base py-3.5 rounded-lg shadow-md hover:bg-red-700 transition tracking-wider uppercase">
+                                    Submit Inquiry
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Info + Map -->
+                    <div class="lg:col-span-1">
+                        <h3 class="text-lg font-semibold mb-4 border-b border-gray-700 pb-3">
+                            GBA Associates LP – Asset Information
+                        </h3>
+
+                        <div class="space-y-6 text-sm">
+                            <div>
+                                <p class="text-gray-400 uppercase text-xs font-semibold tracking-[0.18em] mb-1">
+                                    Address
+                                </p>
+                                <p class="text-gray-100">
+                                    7700 Arlington Blvd, Suite 100<br />
+                                    Falls Church, VA 22042
+                                </p>
+                            </div>
+
+                            <div>
+                                <p class="text-gray-400 uppercase text-xs font-semibold tracking-[0.18em] mb-1">
+                                    Direct Office Contact
+                                </p>
+                                <p class="text-gray-100">
+                                    Main Office Phone: (703) 560 3883
+                                </p>
+                            </div>
+
+                            <div>
+                                <p class="text-gray-400 uppercase text-xs font-semibold tracking-[0.18em] mb-1">
+                                    Email
+                                </p>
+                                <p class="text-gray-100">gba.lp.fwd@gmail.com</p>
+                            </div>
+                        </div>
+
+                        <!-- Map -->
+                        <div class="mt-8 rounded-xl overflow-hidden border border-gray-700 shadow-lg h-64 md:h-72 bg-black">
+                            <iframe
+                                class="w-full h-full"
+                                style="border:0;"
+                                loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade"
+                                src="https://www.openstreetmap.org/export/embed.html?bbox=-77.1895%2C38.8645%2C-77.1705%2C38.8765&layer=mapnik&marker=38.8705%2C-77.1800">
+                            </iframe>
+                        </div>
+
+                        <p class="mt-3 text-xs text-gray-500">
+                            Map reference for the GBA Associates LP office serving as lessor and asset manager to the Defense Health Headquarters campus.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-primary-soft py-6 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 text-xs sm:text-sm text-gray-400">
+            <div class="flex items-center space-x-2">
+                <span class="text-2xl font-extrabold text-secondary" style="font-family: serif;">GBA</span>
+                <span class="text-white text-base font-medium">Associates LP</span>
+            </div>
+            <p class="text-center md:text-left">
+                © 2025 GBA Associates LP. All rights reserved. Lessor and asset manager of the Defense Health Headquarters campus.
+            </p>
+            <div class="flex space-x-4">
+                <a href="#" class="hover:text-gray-200">Privacy Policy</a>
+                <a href="#" class="hover:text-gray-200">Terms of Use</a>
+            </div>
         </div>
-    </div>
-</section>
+    </footer>
 
-
-<!-- FOOTER -->
-<footer class="bg-gray-900 py-10">
-    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-gray-400 text-sm">
-
-        <div class="flex items-center space-x-2">
-            <span class="text-3xl font-extrabold text-[var(--primary)]" style="font-family:serif;">GBA</span>
-            <span class="text-xl text-white">Associates LP</span>
-        </div>
-
-        <p class="my-4 md:my-0">&copy; 2025 GBA Associates LP. All Rights Reserved.</p>
-
-        <div class="flex space-x-6">
-            <a href="#" class="hover:text-white">Privacy Policy</a>
-            <a href="#" class="hover:text-white">Terms of Use</a>
-        </div>
-    </div>
-</footer>
-
-<script> lucide.createIcons(); </script>
+    <!-- Initialize Lucide Icons -->
+    <script>
+        lucide.createIcons();
+    </script>
 </body>
 </html>
