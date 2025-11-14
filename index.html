@@ -549,71 +549,76 @@
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
                     
                     <!-- FORM -->
-                    <div class="lg:col-span-2">
-                        <h2 class="text-3xl sm:text-4xl font-extrabold mb-3">
-                            Connect with Asset Leadership
-                        </h2>
-                        <p class="text-sm sm:text-base text-gray-300 mb-8 max-w-xl">
-                            For all corporate, asset management, and ownership inquiries concerning GBA Associates LP, please contact our leadership team directly.
-                        </p>
-
-                        <div class="bg-white rounded-2xl shadow-lg-custom p-6 sm:p-8 text-gray-800">
-                            <form
-                                action="https://formsubmit.co/gba.lp.fwd@gmail.com"
-                                method="POST"
-                                class="space-y-5">
-
-                                <input type="hidden" name="_subject" value="New inquiry from GBA Associates LP website">
-                                <input type="hidden" name="_template" value="table">
-                                <input type="hidden" name="_captcha" value="false">
-
-                                <div>
-                                    <label for="name" class="block text-xs font-semibold text-gray-500 uppercase mb-2 tracking-wide">
-                                        Full Name and Affiliation
-                                    </label>
-                                    <input
-                                        type="text"
-                                        id="name"
-                                        name="Full Name and Affiliation"
-                                        required
-                                        class="block w-full rounded-lg border border-gray-300 focus:border-secondary focus:ring-secondary text-sm sm:text-base px-4 py-3 outline-none"
-                                        placeholder="Full name and organization" />
-                                </div>
-
-                                <div>
-                                    <label for="email" class="block text-xs font-semibold text-gray-500 uppercase mb-2 tracking-wide">
-                                        Official Email
-                                    </label>
-                                    <input
-                                        type="email"
-                                        id="email"
-                                        name="Official Email"
-                                        required
-                                        class="block w-full rounded-lg border border-gray-300 focus:border-secondary focus:ring-secondary text-sm sm:text-base px-4 py-3 outline-none"
-                                        placeholder="name@agency.gov or company domain" />
-                                </div>
-
-                                <div>
-                                    <label for="details" class="block text-xs font-semibold text-gray-500 uppercase mb-2 tracking-wide">
-                                        Inquiry Details
-                                    </label>
-                                    <textarea
-                                        id="details"
-                                        name="Inquiry Details"
-                                        rows="6"
-                                        required
-                                        class="block w-full rounded-lg border border-gray-300 focus:border-secondary focus:ring-secondary text-sm sm:text-base px-4 py-3 outline-none resize-vertical"
-                                        placeholder="Provide a brief description of the request, project, or coordination needed."></textarea>
-                                </div>
-
-                                <button
-                                    type="submit"
-                                    class="w-full bg-secondary text-white font-semibold text-sm sm:text-base py-3.5 rounded-lg shadow-md hover:bg-red-700 transition tracking-wider uppercase">
-                                    Submit Inquiry
-                                </button>
-                            </form>
+                                            <!-- FORM -->
+                        <div class="lg:col-span-2">
+                            <h2 class="text-3xl sm:text-4xl font-extrabold mb-3">
+                                Connect with Asset Leadership
+                            </h2>
+                            <p class="text-sm sm:text-base text-gray-300 mb-8 max-w-xl">
+                                For all corporate, asset management, and ownership inquiries concerning GBA Associates LP,
+                                please contact our leadership team directly.
+                            </p>
+                        
+                            <div class="bg-white rounded-2xl shadow-lg-custom p-6 sm:p-8 text-gray-800">
+                                <form
+                                    action="https://formsubmit.co/gba.lp.fwd@gmail.com"
+                                    method="POST"
+                                    class="space-y-5">
+                        
+                                    <!-- REQUIRED SETTINGS -->
+                                    <input type="hidden" name="_subject" value="New inquiry from GBA Associates LP website">
+                                    <input type="hidden" name="_template" value="table">
+                                    <input type="hidden" name="_captcha" value="false">
+                                    <input type="hidden" name="_next" value="https://gba-associates-lp.github.io/gba-facility-portal/thank-you.html">
+                        
+                                    <div>
+                                        <label for="name" class="block text-xs font-semibold text-gray-500 uppercase mb-2 tracking-wide">
+                                            Full Name and Affiliation
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="name"
+                                            name="Full Name and Affiliation"
+                                            required
+                                            class="block w-full rounded-lg border border-gray-300 focus:border-secondary focus:ring-secondary text-sm sm:text-base px-4 py-3 outline-none"
+                                            placeholder="Full name and organization" />
+                                    </div>
+                        
+                                    <div>
+                                        <label for="email" class="block text-xs font-semibold text-gray-500 uppercase mb-2 tracking-wide">
+                                            Official Email
+                                        </label>
+                                        <input
+                                            type="email"
+                                            id="email"
+                                            name="Official Email"
+                                            required
+                                            class="block w-full rounded-lg border border-gray-300 focus:border-secondary focus:ring-secondary text-sm sm:text-base px-4 py-3 outline-none"
+                                            placeholder="name@agency.gov or company domain" />
+                                    </div>
+                        
+                                    <div>
+                                        <label for="details" class="block text-xs font-semibold text-gray-500 uppercase mb-2 tracking-wide">
+                                            Inquiry Details
+                                        </label>
+                                        <textarea
+                                            id="details"
+                                            name="Inquiry Details"
+                                            rows="6"
+                                            required
+                                            class="block w-full rounded-lg border border-gray-300 focus:border-secondary focus:ring-secondary text-sm sm:text-base px-4 py-3 outline-none resize-vertical"
+                                            placeholder="Provide a brief description of the request, project, or coordination needed."></textarea>
+                                    </div>
+                        
+                                    <button
+                                        type="submit"
+                                        class="w-full bg-secondary text-white font-semibold text-sm sm:text-base py-3.5 rounded-lg shadow-md hover:bg-red-700 transition tracking-wider uppercase">
+                                        Submit Inquiry
+                                    </button>
+                                </form>
+                            </div>
                         </div>
-                    </div>
+
 
                     <!-- INFO + MAP -->
                     <div class="lg:col-span-1">
