@@ -633,35 +633,35 @@
         lucide.createIcons();
     </script>
     <script>
-    const videoFiles = [
-        "/assets/videos/4609533-uhd_3840_2160_24fps.mp4",
-        "/assets/videos/5496007-uhd_3840_2160_24fps.mp4",
-        "/assets/videos/6581012-uhd_3840_2160_24fps.mp4",
-        "/assets/videos/6581283-uhd_3840_2160_24fps.mp4"
-    ];
+const videoFiles = [
+    "/gba-facility-portal/assets/videos/4609533-uhd_3840_2160_24fps.mp4",
+    "/gba-facility-portal/assets/videos/5496007-uhd_3840_2160_24fps.mp4",
+    "/gba-facility-portal/assets/videos/6581012-uhd_3840_2160_24fps.mp4",
+    "/gba-facility-portal/assets/videos/6581283-uhd_3840_2160_24fps.mp4"
+];
 
-    const videos = document.querySelectorAll(".heroVideo");
-    let current = 0;
+const videos = document.querySelectorAll(".heroVideo");
+let current = 0;
 
-    function setVideo(index) {
-        videos[index].src = videoFiles[index];
-        videos[index].load();
-    }
+function setVideo(index) {
+    videos[index].src = videoFiles[index];
+    videos[index].load();
+}
 
-    function fadeToVideo(next) {
-        videos.forEach(v => v.classList.remove("opacity-100"));
-        videos[next].classList.add("opacity-100");
-        videos[next].play();
-    }
+function fadeToVideo(next) {
+    videos.forEach(v => v.classList.remove("opacity-100"));
+    videos[next].classList.add("opacity-100");
+    videos[next].play();
+}
 
-    videos.forEach((v, i) => setVideo(i));
+videos.forEach((v, i) => setVideo(i));
 
-    fadeToVideo(0);
+fadeToVideo(0);
 
-    setInterval(() => {
-        current = (current + 1) % videos.length;
-        fadeToVideo(current);
-    }, 8000); // every 8 seconds
+setInterval(() => {
+    current = (current + 1) % videos.length;
+    fadeToVideo(current);
+}, 8000);
 </script>
 
 </body>
